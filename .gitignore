@@ -1,0 +1,9 @@
+.vs/
+[Bb]in/[Dd]ebug/*.*
+![Bb]in/[Dd]ebug/*.wav
+![Bb]in/[Dd]ebug/[Ll]exicon_*.xml
+[Bb]in/[Rr]elease/*.*
+![Bb]in/[Rr]elease/*.wav
+![Bb]in/[Rr]elease/[Ll]exicon_*.xml
+[Pp]ackages/*/
+[Ss]rc/obj/
