@@ -39,18 +39,21 @@
             this.SpeedLabel = new System.Windows.Forms.Label();
             this.RadioFXLabel = new System.Windows.Forms.Label();
             this.PlayButton = new System.Windows.Forms.Button();
+            this.PitchLabel = new System.Windows.Forms.Label();
+            this.PitchTrackBar = new System.Windows.Forms.TrackBar();
             this.TLP_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RadioFXTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PitchTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // TLP_Main
             // 
             this.TLP_Main.ColumnCount = 3;
             this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
-            this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
-            this.TLP_Main.Controls.Add(this.SaveButton, 2, 9);
+            this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.TLP_Main.Controls.Add(this.SaveButton, 2, 11);
             this.TLP_Main.Controls.Add(this.MessageTextbox, 0, 1);
             this.TLP_Main.Controls.Add(this.VoiceComboBox, 0, 3);
             this.TLP_Main.Controls.Add(this.SpeedTrackBar, 0, 5);
@@ -59,11 +62,15 @@
             this.TLP_Main.Controls.Add(this.VoiceLabel, 0, 2);
             this.TLP_Main.Controls.Add(this.SpeedLabel, 0, 4);
             this.TLP_Main.Controls.Add(this.RadioFXLabel, 0, 6);
-            this.TLP_Main.Controls.Add(this.PlayButton, 1, 9);
+            this.TLP_Main.Controls.Add(this.PlayButton, 1, 11);
+            this.TLP_Main.Controls.Add(this.PitchLabel, 0, 8);
+            this.TLP_Main.Controls.Add(this.PitchTrackBar, 0, 9);
             this.TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Main.Location = new System.Drawing.Point(0, 0);
             this.TLP_Main.Name = "TLP_Main";
-            this.TLP_Main.RowCount = 10;
+            this.TLP_Main.RowCount = 12;
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -74,16 +81,15 @@
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_Main.Size = new System.Drawing.Size(620, 437);
+            this.TLP_Main.Size = new System.Drawing.Size(620, 357);
             this.TLP_Main.TabIndex = 0;
             // 
             // SaveButton
             // 
             this.SaveButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SaveButton.Location = new System.Drawing.Point(495, 400);
+            this.SaveButton.Location = new System.Drawing.Point(463, 320);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(122, 34);
+            this.SaveButton.Size = new System.Drawing.Size(154, 34);
             this.SaveButton.TabIndex = 1;
             this.SaveButton.Text = "Save to .wav";
             this.SaveButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -125,6 +131,7 @@
             this.SpeedTrackBar.Size = new System.Drawing.Size(614, 24);
             this.SpeedTrackBar.TabIndex = 9;
             this.SpeedTrackBar.Value = 2;
+            this.SpeedTrackBar.Scroll += new System.EventHandler(this.SpeedTrackBar_Scroll);
             // 
             // RadioFXTrackBar
             // 
@@ -193,19 +200,43 @@
             // PlayButton
             // 
             this.PlayButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PlayButton.Location = new System.Drawing.Point(367, 400);
+            this.PlayButton.Location = new System.Drawing.Point(303, 320);
             this.PlayButton.Name = "PlayButton";
-            this.PlayButton.Size = new System.Drawing.Size(122, 34);
+            this.PlayButton.Size = new System.Drawing.Size(154, 34);
             this.PlayButton.TabIndex = 17;
             this.PlayButton.Text = "Play message";
             this.PlayButton.UseVisualStyleBackColor = true;
             this.PlayButton.Click += new System.EventHandler(this.Button_Click);
             // 
+            // PitchLabel
+            // 
+            this.PitchLabel.AutoSize = true;
+            this.TLP_Main.SetColumnSpan(this.PitchLabel, 3);
+            this.PitchLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PitchLabel.Location = new System.Drawing.Point(3, 203);
+            this.PitchLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.PitchLabel.Name = "PitchLabel";
+            this.PitchLabel.Size = new System.Drawing.Size(614, 14);
+            this.PitchLabel.TabIndex = 18;
+            this.PitchLabel.Text = "Pitch";
+            this.PitchLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PitchTrackBar
+            // 
+            this.TLP_Main.SetColumnSpan(this.PitchTrackBar, 3);
+            this.PitchTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PitchTrackBar.Location = new System.Drawing.Point(3, 223);
+            this.PitchTrackBar.Minimum = -10;
+            this.PitchTrackBar.Name = "PitchTrackBar";
+            this.PitchTrackBar.Size = new System.Drawing.Size(614, 24);
+            this.PitchTrackBar.TabIndex = 19;
+            this.PitchTrackBar.Scroll += new System.EventHandler(this.PitchTrackBar_Scroll);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 437);
+            this.ClientSize = new System.Drawing.Size(620, 357);
             this.Controls.Add(this.TLP_Main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
@@ -219,6 +250,7 @@
             this.TLP_Main.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RadioFXTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PitchTrackBar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -236,5 +268,7 @@
         private System.Windows.Forms.Label SpeedLabel;
         private System.Windows.Forms.Label RadioFXLabel;
         private System.Windows.Forms.Button PlayButton;
+        private System.Windows.Forms.Label PitchLabel;
+        private System.Windows.Forms.TrackBar PitchTrackBar;
     }
 }

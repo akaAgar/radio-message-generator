@@ -40,6 +40,9 @@ namespace RadioMessageGenerator.TextToSpeech
         public const int SPEECH_RATE_DEFAULT = 2;
         public const int SPEECH_RATE_MAX = 6;
 
+        public const int PITCH_MIN = -10;
+        public const int PITCH_MAX = 10;
+
         public const int RADIOFX_AMOUNT_MIN = 0;
         public const int RADIOFX_AMOUNT_DEFAULT = 5;
         public const int RADIOFX_AMOUNT_MAX = 5;
@@ -51,6 +54,9 @@ namespace RadioMessageGenerator.TextToSpeech
         private int FXIntensity = RADIOFX_AMOUNT_DEFAULT;
 
         public int Speed { get { return Reader.Rate; } set { Reader.Rate = Math.Min(SPEECH_RATE_MAX, Math.Max(value, SPEECH_RATE_MIN)); } }
+
+        public int Pitch { get { return Pitch_; } set { Pitch_ = Math.Min(PITCH_MAX, Math.Max(value, PITCH_MIN)); } }
+        private int Pitch_;
 
         /// <summary>
         /// The default voice if thr provided voice does not exist. Set in the constructor.
@@ -132,9 +138,12 @@ namespace RadioMessageGenerator.TextToSpeech
             ttsStream.Seek(0, SeekOrigin.Begin); // rewind the stream to position 0
             WaveFileReader waveTTS = new WaveFileReader(ttsStream); // read the stream into a WaveFileReader object
 
+            SmbPitchShiftingSampleProvider pitchProvider = new SmbPitchShiftingSampleProvider(waveTTS.ToSampleProvider()) { PitchFactor = 1f + Pitch_ * .005f };
+
             // Mix voice with radio static
             WaveFileReader waveStatic = new WaveFileReader(debugPathToRelease + "Media/Loop.wav"); // load the static sound loop
-            ISampleProvider providerSpeech = new AMRadioFilter(waveTTS.ToSampleProvider(), FXIntensity * 250); // get the sample provider for the TTS, apply a radio filter
+            ISampleProvider providerSpeech = new AMRadioFilter(pitchProvider, FXIntensity * 250); // get the sample provider for the TTS, apply a radio filter
+
             ISampleProvider providerStatic = waveStatic.ToSampleProvider(); // get the sample provider for the static
             TimeSpan ttsDuration = waveTTS.TotalTime; // get the tts wave duration
             if (ttsDuration < TimeSpan.FromSeconds(MIN_SPEECH_DURATION)) ttsDuration = TimeSpan.FromSeconds(MIN_SPEECH_DURATION); // check min value
