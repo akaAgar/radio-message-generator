@@ -102,19 +102,31 @@ namespace RadioMessageGenerator.TextToSpeech
             return null; // No voice found, return null
         }
 
+        public byte[] GenerateRadioMessageWavBytesFromFile(string fileName)
+        {
+            WaveFileReader voiceReader = new WaveFileReader(fileName);
+            ISampleProvider voiceProvider = voiceReader.ToSampleProvider();
+            
+            byte[] bytes = DoRadioMix(voiceProvider, voiceReader.TotalTime);
+
+            voiceReader.Close(); voiceReader.Dispose();
+
+            return bytes;
+        }
+
         /// <summary>
         /// Uses the Windows TTS library to get the bytes of a PCM Wave file from a text messages.
         /// </summary>
         /// <param name="message"></param>
         /// <param name="voiceName"></param>
         /// <returns>The way files bytes, or an empty array if something went wrong.</returns>
-        public byte[] GenerateRadioMessageWavBytes(string message, string voiceName = null)
+        public byte[] GenerateRadioMessageWavBytesFromTTS(string message, string voiceName = null)
         {
             // Media files are stored in the Release build directory, so if we're running a Debug build, we have to look for them here.
             string debugPathToRelease = "";
-//#if DEBUG
-//            debugPathToRelease = "..\\Release\\";
-//#endif
+#if DEBUG
+            debugPathToRelease = "..\\Release\\";
+#endif
 
             if (string.IsNullOrEmpty(message)) message = ""; // Make sure message is not null
 
@@ -182,6 +194,62 @@ namespace RadioMessageGenerator.TextToSpeech
             // Close/dispose of everything
             ttsStream.Close(); ttsStream.Dispose();
             waveTTS.Close(); waveTTS.Dispose();
+            waveStatic.Close(); waveStatic.Dispose();
+            waveRadioIn.Close(); waveRadioIn.Dispose();
+            waveRadioOut.Close(); waveRadioOut.Dispose();
+            waveFileWriter.Close(); waveFileWriter.Dispose();
+            finalWavStr.Close(); finalWavStr.Dispose();
+
+            // Return the bytes
+            return waveBytes;
+        }
+
+        private byte[] DoRadioMix(ISampleProvider voiceProvider, TimeSpan duration)
+        {
+            // Media files are stored in the Release build directory, so if we're running a Debug build, we have to look for them here.
+            string debugPathToRelease = "";
+#if DEBUG
+            debugPathToRelease = "..\\Release\\";
+#endif
+
+            // Mix voice with radio static
+            WaveFileReader waveStatic = new WaveFileReader(debugPathToRelease + "Media/Loop.wav"); // load the static sound loop
+            ISampleProvider providerStatic = waveStatic.ToSampleProvider(); // get the sample provider for the static
+            
+            if (duration < TimeSpan.FromSeconds(MIN_SPEECH_DURATION)) duration = TimeSpan.FromSeconds(MIN_SPEECH_DURATION); // check min value
+            if (duration > TimeSpan.FromSeconds(MAX_SPEECH_DURATION)) duration = TimeSpan.FromSeconds(MAX_SPEECH_DURATION); // check max value
+            ISampleProvider[] sources = new[] { voiceProvider.Take(duration), providerStatic.Take(duration) }; // use both providers as source with a duration of ttsDuration
+            MixingSampleProvider mixingSampleProvider = new MixingSampleProvider(sources); // mix both channels
+            IWaveProvider radioMix = mixingSampleProvider.ToWaveProvider16(); // convert the mix output to a PCM 16bit sample provider
+
+            // Concatenate radio in/out sounds
+            WaveFileReader waveRadioIn = new WaveFileReader(debugPathToRelease + "Media/In.wav"); // load the radio in FX
+            WaveFileReader waveRadioOut = new WaveFileReader(debugPathToRelease + "Media/Out.wav"); // load the radio out FX
+            IWaveProvider[] radioFXParts = new IWaveProvider[] { waveRadioIn, radioMix, waveRadioOut }; // create an array with all 3 parts
+
+            byte[] buffer = new byte[1024]; // create a buffer to store wav data to concatenate
+            MemoryStream finalWavStr = new MemoryStream(); // create a stream for the final concatenated wav
+            WaveFileWriter waveFileWriter = null; // create a writer to fill the stream
+
+            foreach (IWaveProvider wav in radioFXParts) // iterate all three parts
+            {
+                if (waveFileWriter == null) // no writer, first part of the array
+                    waveFileWriter = new WaveFileWriter(finalWavStr, wav.WaveFormat); // create a writer of the proper format
+                else if (!wav.WaveFormat.Equals(waveFileWriter.WaveFormat)) // else, check the other parts are of the same format
+                    continue; // file is not of the proper format
+
+                int read; // bytes read
+                while ((read = wav.Read(buffer, 0, buffer.Length)) > 0) // read data from the wave
+                { waveFileWriter.Write(buffer, 0, read); } // fill the buffer with it
+            }
+
+            // Copy the stream to a byte array
+            waveFileWriter.Flush();
+            finalWavStr.Seek(0, SeekOrigin.Begin);
+            byte[] waveBytes = new byte[finalWavStr.Length];
+            finalWavStr.Read(waveBytes, 0, waveBytes.Length);
+
+            // Close/dispose of everything
             waveStatic.Close(); waveStatic.Dispose();
             waveRadioIn.Close(); waveRadioIn.Dispose();
             waveRadioOut.Close(); waveRadioOut.Dispose();

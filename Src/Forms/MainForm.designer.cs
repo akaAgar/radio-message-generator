@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.TLP_Main = new System.Windows.Forms.TableLayoutPanel();
-            this.SaveButton = new System.Windows.Forms.Button();
+            this.SaveTTSButton = new System.Windows.Forms.Button();
             this.MessageTextbox = new System.Windows.Forms.TextBox();
             this.VoiceComboBox = new System.Windows.Forms.ComboBox();
             this.SpeedTrackBar = new System.Windows.Forms.TrackBar();
@@ -38,9 +38,11 @@
             this.VoiceLabel = new System.Windows.Forms.Label();
             this.SpeedLabel = new System.Windows.Forms.Label();
             this.RadioFXLabel = new System.Windows.Forms.Label();
-            this.PlayButton = new System.Windows.Forms.Button();
+            this.PlayTTSButton = new System.Windows.Forms.Button();
             this.PitchLabel = new System.Windows.Forms.Label();
             this.PitchTrackBar = new System.Windows.Forms.TrackBar();
+            this.PlayFileButton = new System.Windows.Forms.Button();
+            this.SaveFileButton = new System.Windows.Forms.Button();
             this.TLP_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RadioFXTrackBar)).BeginInit();
@@ -53,7 +55,7 @@
             this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.TLP_Main.Controls.Add(this.SaveButton, 2, 11);
+            this.TLP_Main.Controls.Add(this.SaveTTSButton, 2, 12);
             this.TLP_Main.Controls.Add(this.MessageTextbox, 0, 1);
             this.TLP_Main.Controls.Add(this.VoiceComboBox, 0, 3);
             this.TLP_Main.Controls.Add(this.SpeedTrackBar, 0, 5);
@@ -62,13 +64,15 @@
             this.TLP_Main.Controls.Add(this.VoiceLabel, 0, 2);
             this.TLP_Main.Controls.Add(this.SpeedLabel, 0, 4);
             this.TLP_Main.Controls.Add(this.RadioFXLabel, 0, 6);
-            this.TLP_Main.Controls.Add(this.PlayButton, 1, 11);
+            this.TLP_Main.Controls.Add(this.PlayTTSButton, 1, 12);
             this.TLP_Main.Controls.Add(this.PitchLabel, 0, 8);
             this.TLP_Main.Controls.Add(this.PitchTrackBar, 0, 9);
+            this.TLP_Main.Controls.Add(this.PlayFileButton, 1, 11);
+            this.TLP_Main.Controls.Add(this.SaveFileButton, 2, 11);
             this.TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Main.Location = new System.Drawing.Point(0, 0);
             this.TLP_Main.Name = "TLP_Main";
-            this.TLP_Main.RowCount = 12;
+            this.TLP_Main.RowCount = 13;
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -81,20 +85,21 @@
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.TLP_Main.Size = new System.Drawing.Size(620, 357);
             this.TLP_Main.TabIndex = 0;
             // 
-            // SaveButton
+            // SaveTTSButton
             // 
-            this.SaveButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SaveButton.Location = new System.Drawing.Point(463, 320);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(154, 34);
-            this.SaveButton.TabIndex = 1;
-            this.SaveButton.Text = "Save to .wav";
-            this.SaveButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.Button_Click);
+            this.SaveTTSButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SaveTTSButton.Location = new System.Drawing.Point(463, 320);
+            this.SaveTTSButton.Name = "SaveTTSButton";
+            this.SaveTTSButton.Size = new System.Drawing.Size(154, 34);
+            this.SaveTTSButton.TabIndex = 1;
+            this.SaveTTSButton.Text = "Save TTS to .wav";
+            this.SaveTTSButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.SaveTTSButton.UseVisualStyleBackColor = true;
+            this.SaveTTSButton.Click += new System.EventHandler(this.Button_Click);
             // 
             // MessageTextbox
             // 
@@ -197,16 +202,16 @@
             this.RadioFXLabel.Text = "Radio FX intensity";
             this.RadioFXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // PlayButton
+            // PlayTTSButton
             // 
-            this.PlayButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PlayButton.Location = new System.Drawing.Point(303, 320);
-            this.PlayButton.Name = "PlayButton";
-            this.PlayButton.Size = new System.Drawing.Size(154, 34);
-            this.PlayButton.TabIndex = 17;
-            this.PlayButton.Text = "Play message";
-            this.PlayButton.UseVisualStyleBackColor = true;
-            this.PlayButton.Click += new System.EventHandler(this.Button_Click);
+            this.PlayTTSButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PlayTTSButton.Location = new System.Drawing.Point(303, 320);
+            this.PlayTTSButton.Name = "PlayTTSButton";
+            this.PlayTTSButton.Size = new System.Drawing.Size(154, 34);
+            this.PlayTTSButton.TabIndex = 17;
+            this.PlayTTSButton.Text = "Play TTS message";
+            this.PlayTTSButton.UseVisualStyleBackColor = true;
+            this.PlayTTSButton.Click += new System.EventHandler(this.Button_Click);
             // 
             // PitchLabel
             // 
@@ -231,6 +236,28 @@
             this.PitchTrackBar.Size = new System.Drawing.Size(614, 24);
             this.PitchTrackBar.TabIndex = 19;
             this.PitchTrackBar.Scroll += new System.EventHandler(this.PitchTrackBar_Scroll);
+            // 
+            // PlayFileButton
+            // 
+            this.PlayFileButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PlayFileButton.Location = new System.Drawing.Point(303, 280);
+            this.PlayFileButton.Name = "PlayFileButton";
+            this.PlayFileButton.Size = new System.Drawing.Size(154, 34);
+            this.PlayFileButton.TabIndex = 20;
+            this.PlayFileButton.Text = "Play file message";
+            this.PlayFileButton.UseVisualStyleBackColor = true;
+            this.PlayFileButton.Click += new System.EventHandler(this.Button_Click);
+            // 
+            // SaveFileButton
+            // 
+            this.SaveFileButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SaveFileButton.Location = new System.Drawing.Point(463, 280);
+            this.SaveFileButton.Name = "SaveFileButton";
+            this.SaveFileButton.Size = new System.Drawing.Size(154, 34);
+            this.SaveFileButton.TabIndex = 21;
+            this.SaveFileButton.Text = "Save file to .wav";
+            this.SaveFileButton.UseVisualStyleBackColor = true;
+            this.SaveFileButton.Click += new System.EventHandler(this.Button_Click);
             // 
             // MainForm
             // 
@@ -258,7 +285,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel TLP_Main;
-        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button SaveTTSButton;
         private System.Windows.Forms.TextBox MessageTextbox;
         private System.Windows.Forms.ComboBox VoiceComboBox;
         private System.Windows.Forms.TrackBar SpeedTrackBar;
@@ -267,8 +294,10 @@
         private System.Windows.Forms.Label VoiceLabel;
         private System.Windows.Forms.Label SpeedLabel;
         private System.Windows.Forms.Label RadioFXLabel;
-        private System.Windows.Forms.Button PlayButton;
+        private System.Windows.Forms.Button PlayTTSButton;
         private System.Windows.Forms.Label PitchLabel;
         private System.Windows.Forms.TrackBar PitchTrackBar;
+        private System.Windows.Forms.Button PlayFileButton;
+        private System.Windows.Forms.Button SaveFileButton;
     }
 }

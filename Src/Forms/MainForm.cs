@@ -48,8 +48,8 @@ namespace RadioMessageGenerator.Forms
 
             if (VoiceComboBox.Items.Count == 0)
             {
-                PlayButton.Enabled = false;
-                SaveButton.Enabled = false;
+                PlayTTSButton.Enabled = false;
+                SaveTTSButton.Enabled = false;
             }
         }
 
@@ -60,13 +60,14 @@ namespace RadioMessageGenerator.Forms
 
         private void Button_Click(object sender, EventArgs e)
         {
-            if (VoiceComboBox.Items.Count == 0) return;
+            StopSound();
 
-            if (sender == PlayButton)
+
+            if (sender == PlayTTSButton)
             {
-                StopSound();
+                if (VoiceComboBox.Items.Count == 0) return;
 
-                byte[] bytes = RadioMsgMaker.GenerateRadioMessageWavBytes(MessageTextbox.Text, GetVoiceNameOnlyFromCombobox());
+                byte[] bytes = RadioMsgMaker.GenerateRadioMessageWavBytesFromTTS(MessageTextbox.Text, GetVoiceNameOnlyFromCombobox());
 
                 WaveStream = new MemoryStream(bytes);
                 WaveFile = new WaveFileReader(WaveStream);
@@ -77,17 +78,42 @@ namespace RadioMessageGenerator.Forms
                 return;
             }
 
-            if (sender == SaveButton)
+            if (sender == SaveTTSButton)
             {
+                if (VoiceComboBox.Items.Count == 0) return;
+
                 using (SaveFileDialog sfd = new SaveFileDialog())
                 {
                     sfd.InitialDirectory = LastSavePath;
                     sfd.Filter = "PCM Wave files (*.wav)|*.wav";
                     sfd.FileName = "NewRadioMessage.Wav";
                     if (sfd.ShowDialog() != DialogResult.OK) return;
-                    File.WriteAllBytes(sfd.FileName, RadioMsgMaker.GenerateRadioMessageWavBytes(MessageTextbox.Text, GetVoiceNameOnlyFromCombobox()));
+                    File.WriteAllBytes(sfd.FileName, RadioMsgMaker.GenerateRadioMessageWavBytesFromTTS(MessageTextbox.Text, GetVoiceNameOnlyFromCombobox()));
                     LastSavePath = Path.GetDirectoryName(sfd.FileName);
                 }
+                return;
+            }
+
+            if (sender == PlayFileButton)
+            {
+                string sourceFile = "";
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    ofd.Filter = "PCM Wave files (*.wav)|*.wav";
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                        sourceFile = ofd.FileName;
+                }
+
+                if (!File.Exists(sourceFile)) return;
+
+                byte[] bytes = RadioMsgMaker.GenerateRadioMessageWavBytesFromFile(sourceFile);
+
+                WaveStream = new MemoryStream(bytes);
+                WaveFile = new WaveFileReader(WaveStream);
+
+                WavePlayer = new WaveOutEvent();
+                WavePlayer.Init(WaveFile);
+                WavePlayer.Play();
                 return;
             }
         }
