@@ -86,7 +86,7 @@ namespace RadioMessageGenerator.Forms
                 {
                     sfd.InitialDirectory = LastSavePath;
                     sfd.Filter = "PCM Wave files (*.wav)|*.wav";
-                    sfd.FileName = "NewRadioMessage.Wav";
+                    sfd.FileName = "NewRadioMessage.wav";
                     if (sfd.ShowDialog() != DialogResult.OK) return;
                     File.WriteAllBytes(sfd.FileName, RadioMsgMaker.GenerateRadioMessageWavBytesFromTTS(MessageTextbox.Text, GetVoiceNameOnlyFromCombobox()));
                     LastSavePath = Path.GetDirectoryName(sfd.FileName);
